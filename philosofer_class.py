@@ -2,11 +2,12 @@ import random
 from time import sleep
 
 from philosopher_state import PhilosopherState
-from threading import Thread
+import threading
+
 from chopstick_class import Chopstick, ChopstickState
 
 
-class Philosopher(Thread):
+class Philosopher(threading.Thread):
 
 
     def __init__(self, name, resource):
@@ -14,7 +15,7 @@ class Philosopher(Thread):
         self._eating_time = 5
         self._state = PhilosopherState.thinking
         self._resource_pointer = [Chopstick()]
-        Thread.__init__(self, name=self.philosopher_name, args=())
+        threading.Thread.__init__(self) #, name=self.philosopher_name, target=self.run(), args=())
 
     @property
     def philosopher_name(self):
@@ -47,7 +48,7 @@ class Philosopher(Thread):
         sleep(random.randint(1,10))
 
     def run(self):
-        print("Philosopher {} has joined the table.".format(self.name))
+        print("Philosopher {} has joined the table.".format(self.philosopher_name))
         while True:
             acquired_chopsticks = []
             for chopstick in self._resource_pointer:
